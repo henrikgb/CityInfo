@@ -5,8 +5,9 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers(options =>
 {
+    // Return 406 not acceptable if return format is not supported
     options.ReturnHttpNotAcceptable = true;
-});
+}).AddXmlDataContractSerializerFormatters();
 
 // Add problem details to error message
 //builder.Services.AddProblemDetails(options =>

@@ -9,7 +9,7 @@
         {
             get
             {
-                return PointsOfInterests.Count;
+                return PointsOfInterest.Count;
             }
         }
         public ICollection<PointsOfInterestDto> PointsOfInterest { get; set; } = new List<PointsOfInterestDto>();

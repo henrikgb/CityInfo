@@ -50,5 +50,23 @@ namespace CityInfo.API.Controllers
                 },
                 newLocation);
         }
+
+        [HttpPut("{id}")]
+        public ActionResult UpdateKiteSpotsLocation(int id, KiteSpotsLocationForUpdateDto kiteSpotLocation)
+        {
+            // Find location
+            var location = KiteSpotsLocationDataStore.Current.Locations.FirstOrDefault(l => l.Id == id);
+            if (location == null)
+            {
+                return NotFound();
+            }
+
+            location.NameId = kiteSpotLocation.NameId;
+            location.Longitude = kiteSpotLocation.Longitude;
+            location.Latitude = kiteSpotLocation.Latitude;
+
+            return NoContent();
+
+        }
     }
 }

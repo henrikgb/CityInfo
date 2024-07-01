@@ -19,8 +19,8 @@ namespace CityInfo.API.Controllers
             return Ok(city.PointsOfInterest);
         }
 
-        [HttpGet("{pointofinterestid}", Name = "GetPointOfInterest")]
-        public ActionResult<IEnumerable<PointsOfInterestDto>> GetPointsOfInterest(int cityId, int pointofinterestid)
+        [HttpGet("{pointOfinterestId}", Name = "GetPointOfInterest")]
+        public ActionResult<IEnumerable<PointsOfInterestDto>> GetPointsOfInterest(int cityId, int pointOfinterestId)
         {
             var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
             if (city == null)
@@ -28,7 +28,7 @@ namespace CityInfo.API.Controllers
                 return NotFound();
             }
             // find point of interest
-            var point = city.PointsOfInterest.FirstOrDefault(x => x.Id == pointofinterestid);
+            var point = city.PointsOfInterest.FirstOrDefault(x => x.Id == pointOfinterestId);
             if (point == null)
             {
                 return NotFound();
@@ -38,10 +38,10 @@ namespace CityInfo.API.Controllers
 
         [HttpPost]
         public ActionResult<PointsOfInterestDto> CreatePointOfInterest(
-            int cityID,
+            int cityId,
             [FromBody] PointOfInterestForCreationDto pointOfInterest)
         {
-            var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityID);
+            var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
             if(city == null)
             {
                 return NotFound();
@@ -61,10 +61,34 @@ namespace CityInfo.API.Controllers
             return CreatedAtRoute("GetPointOfInterest",
                 new
                 {
-                    cityID = cityID,
+                    cityId = cityId,
                     pointOfInterestId = finalPointOfInterest.Id
                 },
                 finalPointOfInterest);
+        }
+
+        [HttpPut("{pointOfinterestId}")]
+        public ActionResult UpdatePointOfInterest(int cityId, int pointOfinterestId, PointOfInterestForUpdateDto pointOfInterest) 
+        {
+            // Find city
+            var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
+            if(city == null)
+            {
+                return NotFound();
+            }
+
+            // Find point of interest
+            var pointOfInterestFromStore = city.PointsOfInterest.FirstOrDefault(c => c.Id == pointOfinterestId);
+            if (pointOfInterestFromStore == null)
+            {
+                return NotFound();
+            }
+
+            pointOfInterestFromStore.Name = pointOfInterest.Name;
+            pointOfInterestFromStore.Description = pointOfInterest.Description;
+
+            return NoContent();
+
         }
     }
 }

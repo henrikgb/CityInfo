@@ -15,7 +15,6 @@ namespace CityInfo.API.Controllers
         [HttpGet("{id}",  Name = "GetKiteSpotLocation")]
         public ActionResult<KiteSpotLocationDto> GetKiteSpotLocation(int id)
         {
-            // Find city
             var locationToReturn = KiteSpotsLocationDataStore.Current.Locations.FirstOrDefault(x => x.Id == id);
 
             if (locationToReturn == null)
@@ -30,7 +29,6 @@ namespace CityInfo.API.Controllers
         public ActionResult<KiteSpotLocationDto> CreateKiteSpotLocation(
             [FromBody] KiteSpotsLocationForCreationDto kiteSpotsLocation)
         {
-            // demo purposes - to be improved
             var maxLocationId = KiteSpotsLocationDataStore.Current.Locations.Max(x => x.Id);
 
             var newLocation = new KiteSpotLocationDto()
@@ -54,7 +52,6 @@ namespace CityInfo.API.Controllers
         [HttpPut("{id}")]
         public ActionResult UpdateKiteSpotsLocation(int id, KiteSpotsLocationForUpdateDto kiteSpotLocation)
         {
-            // Find location
             var location = KiteSpotsLocationDataStore.Current.Locations.FirstOrDefault(l => l.Id == id);
             if (location == null)
             {

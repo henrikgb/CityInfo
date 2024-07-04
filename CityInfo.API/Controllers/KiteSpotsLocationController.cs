@@ -101,5 +101,18 @@ namespace CityInfo.API.Controllers
             return NoContent();
         }
 
+        [HttpDelete("{id}")]
+        public ActionResult DeleteKiteSpotLocation(int id)
+        {
+            var location = KiteSpotsLocationDataStore.Current.Locations.FirstOrDefault(l => l.Id == id);
+            if (location == null)
+            {
+                return NotFound();
+            }
+
+            KiteSpotsLocationDataStore.Current.Locations.Remove(location);
+            return NoContent();
+        }
+
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CityInfo.API.Models;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 
 namespace CityInfo.API.Controllers
@@ -65,5 +66,40 @@ namespace CityInfo.API.Controllers
             return NoContent();
 
         }
+
+        [HttpPatch("{id}")]
+        public ActionResult PartiallyUpdateKiteSpotsLocation(int id, JsonPatchDocument<KiteSpotsLocationForUpdateDto> patchDocument)
+        {
+            var location = KiteSpotsLocationDataStore.Current.Locations.FirstOrDefault(l => l.Id == id);
+            if (location == null)
+            {
+                return NotFound();
+            }
+
+            var locationToPatch = new KiteSpotsLocationForUpdateDto()
+            {
+                NameId = location.NameId,
+                Latitude = location.Latitude,
+                Longitude = location.Longitude,
+            };
+            patchDocument.ApplyTo(locationToPatch, ModelState);
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+
+            if (!TryValidateModel(locationToPatch))
+            {
+                return BadRequest(ModelState);
+            }
+
+            location.NameId = locationToPatch.NameId;
+            location.Latitude = locationToPatch.Latitude;
+            location.Longitude = locationToPatch.Longitude; 
+
+            return NoContent();
+        }
+
     }
 }

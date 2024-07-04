@@ -4,11 +4,12 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllers();
 
-//builder.Services.AddControllers(options =>
-//{
-//    // Return 406 not acceptable if return format is not supported
-//    options.ReturnHttpNotAcceptable = true;
-//}).AddXmlDataContractSerializerFormatters();
+builder.Services.AddControllers(options =>
+{
+    // Return 406 not acceptable if return format is not supported
+    options.ReturnHttpNotAcceptable = true;
+}).AddNewtonsoftJson()
+.AddXmlDataContractSerializerFormatters();
 
 // Add problem details to error message
 //builder.Services.AddProblemDetails(options =>

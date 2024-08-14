@@ -8,6 +8,13 @@ namespace CityInfo.API.Controllers
     [Route("api/kitespotslocations")]
     public class KiteSpotsLocationController : ControllerBase
     {
+        private readonly ILogger<KiteSpotsLocationController> _logger;
+
+        public KiteSpotsLocationController(ILogger<KiteSpotsLocationController> logger)
+        {
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+        }
+
         [HttpGet]
         public ActionResult<IEnumerable<KiteSpotLocationDto>> GetKiteSpotLocations()
         {
@@ -20,6 +27,7 @@ namespace CityInfo.API.Controllers
 
             if (locationToReturn == null)
             {
+                _logger.LogInformation($"Kitespot location with id {id} was not found when using GetKiteSpotLocation request.");
                 return NotFound();
             }
 
@@ -56,6 +64,7 @@ namespace CityInfo.API.Controllers
             var location = KiteSpotsLocationDataStore.Current.Locations.FirstOrDefault(l => l.Id == id);
             if (location == null)
             {
+                _logger.LogInformation($"Kitespot location with id {id} was not found when using UpdateKiteSpotsLocation request.");
                 return NotFound();
             }
 
@@ -73,6 +82,7 @@ namespace CityInfo.API.Controllers
             var location = KiteSpotsLocationDataStore.Current.Locations.FirstOrDefault(l => l.Id == id);
             if (location == null)
             {
+                _logger.LogInformation($"Kitespot location with id {id} was not found when using PartiallyUpdateKiteSpotsLocation request.");
                 return NotFound();
             }
 
@@ -107,6 +117,7 @@ namespace CityInfo.API.Controllers
             var location = KiteSpotsLocationDataStore.Current.Locations.FirstOrDefault(l => l.Id == id);
             if (location == null)
             {
+                _logger.LogInformation($"Kitespot location with id {id} was not found when using DeleteKiteSpotLocation request.");
                 return NotFound();
             }
 

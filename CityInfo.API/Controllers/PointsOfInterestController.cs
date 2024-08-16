@@ -12,11 +12,15 @@ namespace CityInfo.API.Controllers
     {
         private readonly ILogger<PointsOfInterestController> _logger;
         private readonly IMailService _mailService;
+        private readonly CitiesDataStore _citiesDataStore;
 
-        public PointsOfInterestController(ILogger<PointsOfInterestController> logger, IMailService mailService) 
+        public PointsOfInterestController(ILogger<PointsOfInterestController> logger, 
+            IMailService mailService,
+            CitiesDataStore citiesDataStore) 
         { 
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _mailService = mailService ?? throw new ArgumentNullException(nameof(mailService));
+            _citiesDataStore = citiesDataStore?? throw new ArgumentNullException(nameof(citiesDataStore));
         }
 
         [HttpGet]
@@ -24,7 +28,7 @@ namespace CityInfo.API.Controllers
         {
             try
             {
-                var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
+                var city = _citiesDataStore.Cities.FirstOrDefault(c => c.Id == cityId);
                 if (city == null)
                 {
                     _logger.LogInformation($"City with id {cityId} was not found when accessing points of interest.");
@@ -43,7 +47,7 @@ namespace CityInfo.API.Controllers
         [HttpGet("{pointOfinterestId}", Name = "GetPointOfInterest")]
         public ActionResult<IEnumerable<PointsOfInterestDto>> GetPointsOfInterest(int cityId, int pointOfinterestId)
         {
-            var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
+            var city = _citiesDataStore.Cities.FirstOrDefault(c => c.Id == cityId);
             if (city == null)
             {
                 return NotFound();
@@ -62,13 +66,13 @@ namespace CityInfo.API.Controllers
             int cityId,
             [FromBody] PointOfInterestForCreationDto pointOfInterest)
         {
-            var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
+            var city = _citiesDataStore.Cities.FirstOrDefault(c => c.Id == cityId);
             if(city == null)
             {
                 return NotFound();
             }
             // demo purposes - to be improved
-            var maxPointOfInterestId = CitiesDataStore.Current.Cities.SelectMany(c => c.PointsOfInterest).Max(p => p.Id);
+            var maxPointOfInterestId = _citiesDataStore.Cities.SelectMany(c => c.PointsOfInterest).Max(p => p.Id);
 
             var finalPointOfInterest = new PointsOfInterestDto()
             {
@@ -92,7 +96,7 @@ namespace CityInfo.API.Controllers
         public ActionResult UpdatePointOfInterest(int cityId, int pointOfinterestId, PointOfInterestForUpdateDto pointOfInterest) 
         {
             // Find city
-            var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
+            var city = _citiesDataStore.Cities.FirstOrDefault(c => c.Id == cityId);
             if(city == null)
             {
                 return NotFound();
@@ -115,7 +119,7 @@ namespace CityInfo.API.Controllers
         [HttpPatch("{pointOfinterestId}")]
         public ActionResult PartiallyUpdatePointOfInterest(int cityId, int pointOfinterestId, JsonPatchDocument<PointOfInterestForUpdateDto> patchDocument)
         {
-            var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
+            var city = _citiesDataStore.Cities.FirstOrDefault(c => c.Id == cityId);
             if(city == null)
             {
                 return NotFound();
@@ -153,7 +157,7 @@ namespace CityInfo.API.Controllers
         [HttpDelete("{pointOfinterestId}")]
         public ActionResult DeletePointOfInterest(int cityId, int pointOfinterestId)
         {
-            var city = CitiesDataStore.Current.Cities.FirstOrDefault(c => c.Id == cityId);
+            var city = _citiesDataStore.Cities.FirstOrDefault(c => c.Id == cityId);
             if (city == null)
             {
                 return NotFound();

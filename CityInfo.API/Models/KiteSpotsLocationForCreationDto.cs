@@ -13,5 +13,14 @@ namespace CityInfo.API.Models
         [Required]
         [Range(-180, 180, ErrorMessage = "Longitude must be between -180 and 180.")]
         public double Longitude { get; set; }
+        [Required]
+        [Range(1, 5, ErrorMessage = "Score must be between 1 and 5")]
+        public int BeginnerScore { get; set; }
+        [Required]
+        [Range(1, 5, ErrorMessage = "Score must be between 1 and 5")]
+        public int FreestyleScore { get; set; }
+        [Required]
+        [Range(1, 5, ErrorMessage = "Score must be between 1 and 5")]
+        public int WaveScore { get; set; }
     }
 }

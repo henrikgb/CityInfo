@@ -46,6 +46,9 @@ namespace CityInfo.API.Controllers
                 NameId = kiteSpotsLocation.NameId,
                 Latitude = kiteSpotsLocation.Latitude,
                 Longitude = kiteSpotsLocation.Longitude,
+                BeginnerScore = kiteSpotsLocation.BeginnerScore,
+                FreestyleScore = kiteSpotsLocation.FreestyleScore,
+                WaveScore = kiteSpotsLocation.WaveScore
             };
 
             KiteSpotsLocationDataStore.Current.Locations.Add(newLocation);
@@ -71,6 +74,9 @@ namespace CityInfo.API.Controllers
             location.NameId = kiteSpotLocation.NameId;
             location.Longitude = kiteSpotLocation.Longitude;
             location.Latitude = kiteSpotLocation.Latitude;
+            location.BeginnerScore = kiteSpotLocation.BeginnerScore;
+            location.FreestyleScore = kiteSpotLocation.FreestyleScore;
+            location.WaveScore = kiteSpotLocation.WaveScore;
 
             return NoContent();
 
@@ -91,6 +97,9 @@ namespace CityInfo.API.Controllers
                 NameId = location.NameId,
                 Latitude = location.Latitude,
                 Longitude = location.Longitude,
+                BeginnerScore = location.BeginnerScore,
+                FreestyleScore = location.FreestyleScore,
+                WaveScore = location.WaveScore,
             };
             patchDocument.ApplyTo(locationToPatch, ModelState);
 
@@ -107,6 +116,9 @@ namespace CityInfo.API.Controllers
             location.NameId = locationToPatch.NameId;
             location.Latitude = locationToPatch.Latitude;
             location.Longitude = locationToPatch.Longitude; 
+            location.BeginnerScore = locationToPatch.BeginnerScore;
+            location.FreestyleScore = locationToPatch.FreestyleScore;
+            location.WaveScore = locationToPatch.WaveScore;
 
             return NoContent();
         }

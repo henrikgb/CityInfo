@@ -22,5 +22,6 @@ namespace CityInfo.API.Models
         [Required]
         [Range(1, 5, ErrorMessage = "Score must be between 1 and 5")]
         public int WaveScore { get; set; }
+        public List<WindDirectionDescriptionsDto> WindDirectionDescriptions { get; set; }
     }
 }

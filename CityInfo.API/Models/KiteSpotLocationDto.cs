@@ -9,5 +9,6 @@
         public int BeginnerScore { get; set; }
         public int FreestyleScore { get; set; }
         public int WaveScore { get; set; }
+        public ICollection<WindDirectionDescriptionsDto> WindDirectionDescriptions { get; set; } = new List<WindDirectionDescriptionsDto>();
     }
 }

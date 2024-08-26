@@ -48,7 +48,8 @@ namespace CityInfo.API.Controllers
                 Longitude = kiteSpotsLocation.Longitude,
                 BeginnerScore = kiteSpotsLocation.BeginnerScore,
                 FreestyleScore = kiteSpotsLocation.FreestyleScore,
-                WaveScore = kiteSpotsLocation.WaveScore
+                WaveScore = kiteSpotsLocation.WaveScore,
+                WindDirectionDescriptions = kiteSpotsLocation.WindDirectionDescriptions
             };
 
             KiteSpotsLocationDataStore.Current.Locations.Add(newLocation);
@@ -77,6 +78,7 @@ namespace CityInfo.API.Controllers
             location.BeginnerScore = kiteSpotLocation.BeginnerScore;
             location.FreestyleScore = kiteSpotLocation.FreestyleScore;
             location.WaveScore = kiteSpotLocation.WaveScore;
+            location.WindDirectionDescriptions = kiteSpotLocation.WindDirectionDescriptions;
 
             return NoContent();
 
